@@ -44,11 +44,14 @@ func main() {
 	if mayorArreglo == 1 {
 		ejercicios.Seleccion(arreglo1)
 		fmt.Println(arreglo1)
+
 	} else if mayorArreglo == -1 {
 		ejercicios.Seleccion(arreglo2)
 		fmt.Println(arreglo2)
+		
 	} else if mayorArreglo == 0 {
-		fmt.Println("Son del mismo tamaño.")
+		ejercicios.Seleccion(arreglo1)
+		fmt.Println("Son del identicos y se ven asi!.", arreglo1)
 	}
 
 }
