@@ -83,25 +83,12 @@ func Comparar(vector1 []int, vector2 []int) int {
 // Seleccion ordena el arreglo recibido mediante el algoritmo de selección.
 func Seleccion(vector []int) {
 
-  for i := 0; i < len(vector); i++ {
-    minimo := vector[i]
-    posicionMinimo := i
+  for i := (len(vector) - 1); i > 0; i-- {
+    posicionMax := Maximo(vector[:i+1])
+    Swap(&vector[i], &vector[posicionMax])
 
-    for j := (i + 1); j < len(vector); j++ {
-
-      if (vector[j] < minimo) {
-
-        minimo = vector[j]
-        posicionMinimo = j
-
-      }
-    }
-
-    aux := vector[i]
-    vector[i] = minimo
-    vector[posicionMinimo] = aux
-    
   }
+
 }
 
 // Suma devuelve la suma de los elementos de un arreglo. En caso de no tener elementos, debe devolver 0.
