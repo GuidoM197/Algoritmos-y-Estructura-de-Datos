@@ -43,15 +43,26 @@ func main() {
 
 	if mayorArreglo == 1 {
 		ejercicios.Seleccion(arreglo1)
-		fmt.Println(arreglo1)
+
+		for _, valor := range arreglo1 {
+			fmt.Println(valor)
+		}
 
 	} else if mayorArreglo == -1 {
 		ejercicios.Seleccion(arreglo2)
-		fmt.Println(arreglo2)
+
+		for _, valor := range arreglo2 {
+			fmt.Println(valor)
+		}
 
 	} else if mayorArreglo == 0 {
 		ejercicios.Seleccion(arreglo1)
-		fmt.Println("Son del identicos y se ven asi!.", arreglo1)
+		fmt.Println("Son del identicos y se ven asi!.")
+
+		for _, valor := range arreglo1 {
+			fmt.Println(valor)
+		}
+
 	}
 
 }
