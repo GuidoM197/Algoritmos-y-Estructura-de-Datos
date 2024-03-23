@@ -18,20 +18,20 @@ func recolectorDeDatos(ruta string) []int {
 
 	lineas := bufio.NewScanner(archivo)
 
-	slice_aux := []string{}
+	sliceAux := []string{}
 
 	for lineas.Scan() {
-		slice_aux = append(slice_aux, lineas.Text())
+		sliceAux = append(sliceAux, lineas.Text())
 	}
 
-	slice_final := []int{}
+	sliceFinal := []int{}
 
-	for _, valor := range slice_aux {
+	for _, valor := range sliceAux {
 		numero, _ := strconv.Atoi(valor)
-		slice_final = append(slice_final, numero)
+		sliceFinal = append(sliceFinal, numero)
 	}
 
-	return slice_final
+	return sliceFinal
 }
 
 func main() {
