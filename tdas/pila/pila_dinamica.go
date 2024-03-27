@@ -1,9 +1,5 @@
 package pila
 
-import (
-	"tdas/pila"
-)
-
 /* Definición del struct pila proporcionado por la cátedra. */
 
 type pilaDinamica[T any] struct {
@@ -11,7 +7,7 @@ type pilaDinamica[T any] struct {
 	cantidad int
 }
 
-func CrearPilaDinamica[T any]() pila.Pila[T] {
+func CrearPilaDinamica[T any]() Pila[T] {
 	nuevaPila := new(pilaDinamica[T])
 	datos := make([]T, 5)
 	nuevaPila.datos = datos
