@@ -6,8 +6,8 @@ import (
 	"testing"
 )
 
-const IteracionesAumentarVolumen = 1000
-const IteracionesDisminuirVolumen = 999
+const IteracionesAumentarVolumen = 10000
+const IteracionesDisminuirVolumen = 9999
 
 func TestPilaVacia(t *testing.T) {
 	pila := TDAPila.CrearPilaDinamica[int]()
