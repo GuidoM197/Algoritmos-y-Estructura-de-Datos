@@ -1,3 +1,3 @@
-module Guia_1
+module guias
 
 go 1.22.1
