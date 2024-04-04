@@ -15,4 +15,9 @@ type Pila[T any] interface {
 	// Desapilar saca el elemento tope de la pila. Si la pila tiene elementos, se quita el tope de la pila, y
 	// se devuelve ese valor. Si está vacía, entra en pánico con un mensaje "La pila esta vacia".
 	Desapilar() T
+
+	// Implementaciones de la guia.
+
+	// Se le pasa un numero n y devuelve un array de los n topes, si tiene menos de n elementos devuelve hasta donde pueda.
+	Multitope(n int) []T
 }

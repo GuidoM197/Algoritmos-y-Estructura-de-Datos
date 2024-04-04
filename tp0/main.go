@@ -13,7 +13,10 @@ const rutaArch2 = "archivo2.in"
 
 func recolectorDeDatos(ruta string) []int {
 
-	archivo, _ := os.Open(ruta)
+	archivo, err := os.Open(ruta)
+	if err != nil {
+		fmt.Printf("No se pudo abrir el archivo correctamente: %v\n", err)
+	}
 	defer archivo.Close()
 
 	lineas := bufio.NewScanner(archivo)
@@ -27,7 +30,10 @@ func recolectorDeDatos(ruta string) []int {
 	sliceFinal := []int{}
 
 	for _, valor := range sliceAux {
-		numero, _ := strconv.Atoi(valor)
+		numero, err := strconv.Atoi(valor)
+		if err != nil {
+			fmt.Printf("No se pudo convertir correctamente: %v\n", err)
+		}
 		sliceFinal = append(sliceFinal, numero)
 	}
 
@@ -36,33 +42,25 @@ func recolectorDeDatos(ruta string) []int {
 
 func main() {
 
+	var resultado []int
+
 	arreglo1 := recolectorDeDatos(rutaArch1)
 	arreglo2 := recolectorDeDatos(rutaArch2)
 
 	mayorArreglo := ejercicios.Comparar(arreglo1, arreglo2)
 
-	if mayorArreglo == 1 {
+	if mayorArreglo == 1 || mayorArreglo == 0 {
 		ejercicios.Seleccion(arreglo1)
-
-		for _, valor := range arreglo1 {
-			fmt.Println(valor)
-		}
+		resultado = arreglo1
 
 	} else if mayorArreglo == -1 {
 		ejercicios.Seleccion(arreglo2)
+		resultado = arreglo2
 
-		for _, valor := range arreglo2 {
-			fmt.Println(valor)
-		}
+	}
 
-	} else if mayorArreglo == 0 {
-		ejercicios.Seleccion(arreglo1)
-		fmt.Println("Son del identicos y se ven asi!.")
-
-		for _, valor := range arreglo1 {
-			fmt.Println(valor)
-		}
-
+	for _, valor := range resultado {
+		fmt.Println(valor)
 	}
 
 }

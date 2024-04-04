@@ -7,6 +7,21 @@ type pilaDinamica[T any] struct {
 	cantidad int
 }
 
+func redimension[T any](cantidad, capacidad int, datos []T) []T {
+	if cantidad == capacidad {
+		nuevosDatos := make([]T, cap(datos)*2)
+		copy(nuevosDatos, datos)
+		return nuevosDatos
+
+	} else if cantidad*4 == capacidad {
+		nuevosDatos := make([]T, cap(datos)/2)
+		copy(nuevosDatos, datos)
+		return nuevosDatos
+
+	}
+	return datos
+}
+
 func CrearPilaDinamica[T any]() Pila[T] {
 	nuevaPila := new(pilaDinamica[T])
 	datos := make([]T, 5)
@@ -14,36 +29,39 @@ func CrearPilaDinamica[T any]() Pila[T] {
 	return nuevaPila
 }
 
-func (p *pilaDinamica[T]) EstaVacia() bool {
-	return p.cantidad == 0
+func (pila *pilaDinamica[T]) EstaVacia() bool {
+	return pila.cantidad == 0
 }
 
-func (p *pilaDinamica[T]) VerTope() T {
-	if p.EstaVacia() {
+func (pila *pilaDinamica[T]) VerTope() T {
+	if pila.EstaVacia() {
 		panic("La pila esta vacia")
 	}
-	return p.datos[p.cantidad-1]
+	return pila.datos[pila.cantidad-1]
 }
 
-func (p *pilaDinamica[T]) Apilar(elemento T) {
-	if p.cantidad == cap(p.datos) {
-		nuevosDatos := make([]T, cap(p.datos)*2)
-		copy(nuevosDatos, p.datos)
-		p.datos = nuevosDatos
-	}
-	p.datos[p.cantidad] = elemento
-	p.cantidad++
+func (pila *pilaDinamica[T]) Apilar(elemento T) {
+	pila.datos = redimension(pila.cantidad, cap(pila.datos), pila.datos)
+	pila.datos[pila.cantidad] = elemento
+	pila.cantidad++
 }
 
-func (p *pilaDinamica[T]) Desapilar() T {
-	if p.EstaVacia() {
+func (pila *pilaDinamica[T]) Desapilar() T {
+	if pila.EstaVacia() {
 		panic("La pila esta vacia")
 	}
-	if p.cantidad*4 == cap(p.datos) {
-		nuevosDatos := make([]T, cap(p.datos)/2)
-		copy(nuevosDatos, p.datos)
-		p.datos = nuevosDatos
+	pila.datos = redimension(pila.cantidad, cap(pila.datos), pila.datos)
+	pila.cantidad--
+	return pila.datos[pila.cantidad]
+}
+
+// Func de la guia.
+
+func (pila pilaDinamica[T]) Multitope(n int) []T {
+	cantidad := min(pila.cantidad, n)
+	topes := make([]T, cantidad)
+	for i := 0; i < cantidad; i++ {
+		topes[i] = pila.datos[pila.cantidad-i-1]
 	}
-	p.cantidad--
-	return p.datos[p.cantidad]
+	return topes
 }
