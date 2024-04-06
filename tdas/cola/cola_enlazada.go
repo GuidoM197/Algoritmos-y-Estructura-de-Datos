@@ -15,7 +15,7 @@ func (cola *colaEnlazada[T]) EstaVacia() bool {
 
 func (cola *colaEnlazada[T]) VerPrimero() T {
 	if cola.EstaVacia() {
-		panic("La cola esta vacia.")
+		panic("La cola esta vacia")
 	}
 	return cola.primero.valor
 }
@@ -32,7 +32,7 @@ func (cola *colaEnlazada[T]) Encolar(valor T) {
 
 func (cola *colaEnlazada[T]) Desencolar() T {
 	if cola.EstaVacia() {
-		panic("La cola esta vacia.")
+		panic("La cola esta vacia")
 	}
 	valor := cola.primero.valor
 	cola.primero = cola.primero.prox
