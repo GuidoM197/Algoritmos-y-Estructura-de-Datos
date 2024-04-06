@@ -10,7 +10,7 @@ func CrearColaEnlazada[T any]() Cola[T] {
 }
 
 func (cola *colaEnlazada[T]) EstaVacia() bool {
-	return cola.primero == nil
+	return cola.primero == nil && cola.ultimo == nil
 }
 
 func (cola *colaEnlazada[T]) VerPrimero() T {
