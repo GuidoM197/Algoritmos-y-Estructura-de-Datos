@@ -54,14 +54,3 @@ func (pila *pilaDinamica[T]) Desapilar() T {
 	pila.cantidad--
 	return pila.datos[pila.cantidad]
 }
-
-// Func de la guia.
-
-func (pila pilaDinamica[T]) Multitope(n int) []T {
-	cantidad := min(pila.cantidad, n)
-	topes := make([]T, cantidad)
-	for i := 0; i < cantidad; i++ {
-		topes[i] = pila.datos[pila.cantidad-i-1]
-	}
-	return topes
-}
