@@ -2,31 +2,18 @@ package pila
 
 /* Definición del struct pila proporcionado por la cátedra. */
 
+const CANTIDAD_INICIAL = 0
+const CAPACIDAD_INICIAL = 5
+const AUMENTAR_CAPACIDAD = 2
+const DISMINUIR_CAPACIDAD = 2
+
 type pilaDinamica[T any] struct {
 	datos    []T
 	cantidad int
 }
 
-func redimension[T any](cantidad, capacidad int, datos []T) []T {
-	if cantidad == capacidad {
-		nuevosDatos := make([]T, cap(datos)*2)
-		copy(nuevosDatos, datos)
-		return nuevosDatos
-
-	} else if cantidad*4 == capacidad {
-		nuevosDatos := make([]T, cap(datos)/2)
-		copy(nuevosDatos, datos)
-		return nuevosDatos
-
-	}
-	return datos
-}
-
 func CrearPilaDinamica[T any]() Pila[T] {
-	nuevaPila := new(pilaDinamica[T])
-	datos := make([]T, 5)
-	nuevaPila.datos = datos
-	return nuevaPila
+	return &pilaDinamica[T]{datos: make([]T, CAPACIDAD_INICIAL), cantidad: CANTIDAD_INICIAL}
 }
 
 func (pila *pilaDinamica[T]) EstaVacia() bool {
@@ -41,7 +28,9 @@ func (pila *pilaDinamica[T]) VerTope() T {
 }
 
 func (pila *pilaDinamica[T]) Apilar(elemento T) {
-	pila.datos = redimension(pila.cantidad, cap(pila.datos), pila.datos)
+	if pila.cantidad == cap(pila.datos) {
+		pila.datos = redimensionAumento(AUMENTAR_CAPACIDAD, pila.datos)
+	}
 	pila.datos[pila.cantidad] = elemento
 	pila.cantidad++
 }
@@ -50,7 +39,21 @@ func (pila *pilaDinamica[T]) Desapilar() T {
 	if pila.EstaVacia() {
 		panic("La pila esta vacia")
 	}
-	pila.datos = redimension(pila.cantidad, cap(pila.datos), pila.datos)
+	if pila.cantidad*4 == cap(pila.datos) {
+		pila.datos = redimensionDisminuir(DISMINUIR_CAPACIDAD, pila.datos)
+	}
 	pila.cantidad--
 	return pila.datos[pila.cantidad]
+}
+
+func redimensionAumento[T any](nuevaCapacidad int, datos []T) []T {
+	nuevosDatos := make([]T, cap(datos)*nuevaCapacidad)
+	copy(nuevosDatos, datos)
+	return nuevosDatos
+}
+
+func redimensionDisminuir[T any](nuevaCapacidad int, datos []T) []T {
+	nuevosDatos := make([]T, cap(datos)/nuevaCapacidad)
+	copy(nuevosDatos, datos)
+	return nuevosDatos
 }

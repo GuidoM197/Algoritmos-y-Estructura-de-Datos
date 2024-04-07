@@ -6,8 +6,8 @@ import (
 	"testing"
 )
 
-const IteracionesAumentarVolumen = 10000
-const IteracionesDisminuirVolumen = 9999
+const _ITERACIONESAUMENTARVOLUMEN = 10000
+const _ITERACIONESDISMINUIRVOLUMEN = 9999
 
 func TestPilaVacia(t *testing.T) {
 	pila := TDAPila.CrearPilaDinamica[int]()
@@ -21,7 +21,7 @@ func TestDeVolumenDePila(t *testing.T) {
 	pila := TDAPila.CrearPilaDinamica[int]()
 
 	// Pruebo si puedo apilar tantos elementos como quiera.
-	for i := range IteracionesAumentarVolumen {
+	for i := range _ITERACIONESAUMENTARVOLUMEN {
 		pila.Apilar(i)
 		require.EqualValues(t, i, pila.VerTope(), "Al aumentar el volumen no coincidio el tope.")
 	}
@@ -29,7 +29,7 @@ func TestDeVolumenDePila(t *testing.T) {
 	require.False(t, pila.EstaVacia(), "Deberia devolver False ya que contiene elementos.")
 
 	// Pruebo si puedo desapilar tantos elementos como pueda.
-	for i := IteracionesDisminuirVolumen; i >= 0; i-- {
+	for i := _ITERACIONESDISMINUIRVOLUMEN; i >= 0; i-- {
 		require.EqualValues(t, i, pila.VerTope(), "Al disminuir el volumen no coincidio el tope.")
 		pila.Desapilar()
 	}

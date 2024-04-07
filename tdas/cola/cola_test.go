@@ -6,8 +6,8 @@ import (
 	"testing"
 )
 
-const IteracionesAumentarVolumen = 10000
-const IteracionesDisminuirVolumen = 9999
+const _ITERACIONES_AUMENTAR_VOLUMEN = 10000
+const _ITERACIONES_DISMINUIR_VOLUMEN = 9999
 
 func TestColaVacia(t *testing.T) {
 	cola := TDACola.CrearColaEnlazada[int]()
@@ -21,7 +21,7 @@ func TestDeVolumenDeCola(t *testing.T) {
 	cola := TDACola.CrearColaEnlazada[int]()
 
 	// Pruebo si puedo encolar tantos elementos como quiera.
-	for i := range IteracionesAumentarVolumen {
+	for i := range _ITERACIONES_AUMENTAR_VOLUMEN {
 		cola.Encolar(i)
 	}
 	require.EqualValues(t, 0, cola.VerPrimero(), "Al aumentar el volumen no coincidio el primero.")
@@ -29,7 +29,7 @@ func TestDeVolumenDeCola(t *testing.T) {
 	require.False(t, cola.EstaVacia(), "Deberia devolver False ya que contiene elementos.")
 
 	// Pruebo si puedo desencolar tantos elementos como pueda.
-	for i := IteracionesDisminuirVolumen; i >= 0; i-- {
+	for i := _ITERACIONES_DISMINUIR_VOLUMEN; i >= 0; i-- {
 		cola.Desencolar()
 	}
 
