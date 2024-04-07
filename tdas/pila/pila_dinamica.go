@@ -29,7 +29,7 @@ func (pila *pilaDinamica[T]) VerTope() T {
 
 func (pila *pilaDinamica[T]) Apilar(elemento T) {
 	if pila.cantidad == cap(pila.datos) {
-		pila.datos = redimensionAumento(AUMENTAR_CAPACIDAD, pila.datos)
+		pila.datos = redimension(cap(pila.datos)*DISMINUIR_CAPACIDAD, pila.datos)
 	}
 	pila.datos[pila.cantidad] = elemento
 	pila.cantidad++
@@ -40,20 +40,14 @@ func (pila *pilaDinamica[T]) Desapilar() T {
 		panic("La pila esta vacia")
 	}
 	if pila.cantidad*4 == cap(pila.datos) {
-		pila.datos = redimensionDisminuir(DISMINUIR_CAPACIDAD, pila.datos)
+		pila.datos = redimension(cap(pila.datos)/DISMINUIR_CAPACIDAD, pila.datos)
 	}
 	pila.cantidad--
 	return pila.datos[pila.cantidad]
 }
 
-func redimensionAumento[T any](nuevaCapacidad int, datos []T) []T {
-	nuevosDatos := make([]T, cap(datos)*nuevaCapacidad)
-	copy(nuevosDatos, datos)
-	return nuevosDatos
-}
-
-func redimensionDisminuir[T any](nuevaCapacidad int, datos []T) []T {
-	nuevosDatos := make([]T, cap(datos)/nuevaCapacidad)
+func redimension[T any](nuevaCapacidad int, datos []T) []T {
+	nuevosDatos := make([]T, nuevaCapacidad)
 	copy(nuevosDatos, datos)
 	return nuevosDatos
 }
