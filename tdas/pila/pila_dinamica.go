@@ -31,7 +31,7 @@ func (pila *pilaDinamica[T]) VerTope() T {
 
 func (pila *pilaDinamica[T]) Apilar(elemento T) {
 	if pila.cantidad == cap(pila.datos) {
-		pila.datos = redimension(cap(pila.datos)*DISMINUIR_CAPACIDAD, pila.datos)
+		pila.datos = redimension(cap(pila.datos)*AUMENTAR_CAPACIDAD, pila.datos)
 	}
 	pila.datos[pila.cantidad] = elemento
 	pila.cantidad++
