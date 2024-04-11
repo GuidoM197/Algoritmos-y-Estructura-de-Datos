@@ -1,5 +1,7 @@
 package pila
 
+import "fmt"
+
 /* Definición del struct pila proporcionado por la cátedra. */
 
 const CANTIDAD_INICIAL = 0
@@ -50,4 +52,15 @@ func redimension[T any](nuevaCapacidad int, datos []T) []T {
 	nuevosDatos := make([]T, nuevaCapacidad)
 	copy(nuevosDatos, datos)
 	return nuevosDatos
+}
+
+func (pila *pilaDinamica[T]) VerPila() {
+	if pila.EstaVacia() {
+		panic("La pila esta vacia")
+	}
+	fmt.Printf("<|fin ")
+	for i := 0; i < pila.cantidad; i++ {
+		fmt.Printf("<- %v ", pila.datos[i])
+	}
+	fmt.Printf("<|tope")
 }
