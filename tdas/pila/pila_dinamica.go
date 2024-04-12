@@ -62,5 +62,5 @@ func (pila *pilaDinamica[T]) VerPila() {
 	for i := 0; i < pila.cantidad; i++ {
 		fmt.Printf("<- %v ", pila.datos[i])
 	}
-	fmt.Printf("<|tope")
+	fmt.Printf("<|tope \n")
 }
