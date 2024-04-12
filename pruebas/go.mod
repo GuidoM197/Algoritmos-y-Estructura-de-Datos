@@ -1,3 +1,3 @@
-module Pruebas
+module pruebas
 
 go 1.22.1
