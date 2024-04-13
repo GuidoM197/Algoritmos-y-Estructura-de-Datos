@@ -4,3 +4,4 @@ use ./tp0
 use ./tdas
 use ./pruebas
 use ./guias
+use ./tp1

@@ -1,5 +1,7 @@
 package cola
 
+import "fmt"
+
 type colaEnlazada[T any] struct {
 	primero *nodo[T]
 	ultimo  *nodo[T]
@@ -49,4 +51,13 @@ type nodo[T any] struct {
 
 func crearNodo[T any](dato T, proximo *nodo[T]) *nodo[T] {
 	return &nodo[T]{dato, proximo}
+}
+
+func (cola colaEnlazada[T]) VerCola() {
+	fmt.Printf("<| Primero |")
+	for !cola.EstaVacia() {
+		fmt.Printf(" <- %v", cola.VerPrimero())
+		cola.Desencolar()
+	}
+	fmt.Printf(" <| Fin |\n")
 }

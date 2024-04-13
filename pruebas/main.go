@@ -1,113 +1,56 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
-	"os"
-	"strconv"
-	"strings"
-<<<<<<< HEAD
-	TDAPila "tdas/pila"
-=======
 	"tdas/cola"
 	"tdas/pila"
->>>>>>> 26a25cf105ba5895fc716f82347d1f494ab78e94
 )
 
-const RUTA = "./prueba.txt"
+func mismosOperadores(operadores cola.Cola[int], numeros pila.Pila[int]) bool {
+	var (
+		counterOperators int
+		counterNumbers   int
+		pilaAux          pila.Pila[int]
+		colaAux          cola.Cola[int]
+	)
 
-<<<<<<< HEAD
-func suma(pila TDAPila.Pila[int]) int {
-	var res int
-	var counter int
-	for !pila.EstaVacia() && counter != 2 {
-		res += pila.Desapilar()
-		counter++
+	for !operadores.EstaVacia() && !numeros.EstaVacia() {
+
+		colaAux.Encolar(operadores.Desencolar())
+		pilaAux.Apilar(numeros.Desapilar())
+
+		counterOperators++
+		counterNumbers++
 	}
-	return res
+
+	return counterNumbers == counterOperators
 }
 
 func main() {
-	//file := bufio.NewScanner(os.Stdin)
-	pilaNumero := TDAPila.CrearPilaDinamica[int]()
-	//pilaOperadores := TDAPila.CrearPilaDinamica[string]()
 
-=======
-func identificarNumeros(arreglo []string) (pila.Pila[int], []string) {
-	nuevaPila := pila.CrearPilaDinamica[int]()
-	arregloOperadores := []string{}
-	for _, value := range arreglo {
+	cola := cola.CrearColaEnlazada[int]()
+	pila := pila.CrearPilaDinamica[int]()
 
-		if value == "0" || value == "1" || value == "2" || value == "3" || value == "4" || value == "5" || value == "6" || value == "7" || value == "8" || value == "9" {
-			number, err := strconv.Atoi(value)
-			if err != nil {
-				fmt.Printf("No se pudo convertir correctamente: %v\n", err)
-			}
+	pila.Apilar(1)
+	pila.Apilar(1)
+	pila.Apilar(1)
+	pila.Apilar(1)
 
-			nuevaPila.Apilar(number)
+	cola.Encolar(1)
+	cola.Encolar(1)
+	cola.Encolar(1)
 
-		} else {
-			arregloOperadores = append(arregloOperadores, value)
-		}
+	fmt.Println(mismosOperadores(cola, pila))
 
-	}
-	return nuevaPila, arregloOperadores
+	cola.VerCola()
+	pila.VerPila()
+
 }
 
-func main() {
->>>>>>> 26a25cf105ba5895fc716f82347d1f494ab78e94
-	archivo, err := os.Open(RUTA)
-	if err != nil {
-		fmt.Printf("No se pudo abrir el archivo correctamente: %v\n", err)
-	}
-	defer archivo.Close()
-
-	lineas := bufio.NewScanner(archivo)
-
-<<<<<<< HEAD
-	for lineas.Scan() {
-		sliceAux := strings.Split(lineas.Text(), " ")
-
-		centinela := true
-
-		for centinela {
-
-			var i int
-
-			numero, err := strconv.Atoi(sliceAux[i])
-			if err != nil {
-				fmt.Printf("No se pudo convertir correctamente: %v\n", err)
-			}
-
-			pilaNumero.Apilar(numero)
-			i++
-
-			if sliceAux[i] == "+" || sliceAux[i] == "-" {
-				centinela = false
-
-			}
-		}
-		var i int
-		if sliceAux[i] == "+" {
-			fmt.Println(suma(pilaNumero))
-		}
-
-	}
-
-=======
-	colaOperaciones := cola.CrearColaEnlazada[[]string]()
-
-	for lineas.Scan() {
-		sliceAux := strings.Split(lineas.Text(), " ")
-		colaOperaciones.Encolar(sliceAux)
-	}
-
-	for !colaOperaciones.EstaVacia() {
-		operacionActual := colaOperaciones.Desencolar()
-		pilaDeNumeros, operadores := identificarNumeros(operacionActual)
-
-		fmt.Printf("%v ", operadores)
-		pilaDeNumeros.VerPila()
-	}
->>>>>>> 26a25cf105ba5895fc716f82347d1f494ab78e94
-}
+/*
+5 3 +
+5 3 -
+5 3 /
+3 5 8 + +
+3 5 8 + -
+*/
