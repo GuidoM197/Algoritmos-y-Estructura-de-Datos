@@ -49,7 +49,7 @@ func TestColaDeStrings(t *testing.T) {
 		d = "?"
 	)
 
-	// Pruebo apilar cadenas y verificar si se encolar correctamente.
+	// Pruebo encolar cadenas y verificar si se encolar correctamente.
 	cola.Encolar(a)
 	cola.Encolar(b)
 	cola.Encolar(c)

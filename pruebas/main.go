@@ -2,55 +2,30 @@ package main
 
 import (
 	"fmt"
-	"tdas/cola"
-	"tdas/pila"
+	lista "tdas/lista"
 )
 
-func mismosOperadores(operadores cola.Cola[int], numeros pila.Pila[int]) bool {
-	var (
-		counterOperators int
-		counterNumbers   int
-		pilaAux          pila.Pila[int]
-		colaAux          cola.Cola[int]
-	)
-
-	for !operadores.EstaVacia() && !numeros.EstaVacia() {
-
-		colaAux.Encolar(operadores.Desencolar())
-		pilaAux.Apilar(numeros.Desapilar())
-
-		counterOperators++
-		counterNumbers++
-	}
-
-	return counterNumbers == counterOperators
-}
-
 func main() {
+	lista_Enlazada := lista.CrearListaEnlazada[int]()
+	res := []int{}
 
-	cola := cola.CrearColaEnlazada[int]()
-	pila := pila.CrearPilaDinamica[int]()
+	for i := 0; i < 5; i++ {
+		lista_Enlazada.InsertarUltimo(i)
 
-	pila.Apilar(1)
-	pila.Apilar(1)
-	pila.Apilar(1)
-	pila.Apilar(1)
+	}
+	lista_Enlazada.ToString()
 
-	cola.Encolar(1)
-	cola.Encolar(1)
-	cola.Encolar(1)
+	contador := 0
+	lista_Enlazada.Iterar(func(i int) bool {
+		if contador == 3 {
+			return false
+		}
+		v := i * 2
+		res = append(res, v)
+		contador++
+		return true
+	})
 
-	fmt.Println(mismosOperadores(cola, pila))
-
-	cola.VerCola()
-	pila.VerPila()
-
+	lista_Enlazada.ToString()
+	fmt.Println(res)
 }
-
-/*
-5 3 +
-5 3 -
-5 3 /
-3 5 8 + +
-3 5 8 + -
-*/

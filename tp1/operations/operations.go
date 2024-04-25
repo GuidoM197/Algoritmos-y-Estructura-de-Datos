@@ -88,6 +88,7 @@ func processorOperation(stackOfNumbers pila.Pila[int64], operator string, elemen
 
 		} else {
 			return 0, fmt.Errorf("There are not enough numbers to performance this operation ( +, -, *, /, log )"), elementsInStack
+
 		}
 	}
 	return result, err, elementsInStack
