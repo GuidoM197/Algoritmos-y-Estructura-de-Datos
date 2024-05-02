@@ -2,12 +2,13 @@ package operations
 
 import (
 	"fmt"
+	"math"
 	"strconv"
 	"strings"
 	"tdas/pila"
 )
 
-const (
+var (
 	SUM            = "+"
 	SUBTRACTION    = "-"
 	MULTIPLICATION = "*"
@@ -16,7 +17,67 @@ const (
 	RAISE          = "^"
 	LOGARITHM      = "log"
 	TERNARY        = "?"
-	OPERATORS      = "+-*/sqrt^log?"
+	OPSUM          = Operator{SUM, 2, func(operands []int64) (int64, error) {
+		if len(operands) == 0 {
+			return 0, fmt.Errorf("There are not enough numbers to performance this operation ( + )")
+		}
+		return operands[0] + operands[1], nil
+	}}
+	OPSUBTRACTION = Operator{SUBTRACTION, 2, func(operands []int64) (int64, error) {
+		if len(operands) == 0 {
+			return 0, fmt.Errorf("There are not enough numbers to performance this operation ( - )")
+		}
+		return operands[1] - operands[0], nil
+	}}
+	OPMULTIPLICATION = Operator{MULTIPLICATION, 2, func(operands []int64) (int64, error) {
+		if len(operands) == 0 {
+			return 0, fmt.Errorf("There are not enough numbers to performance this operation ( * )")
+		}
+		return operands[1] * operands[0], nil
+	}}
+	OPDIVISION = Operator{DIVISION, 2, func(operands []int64) (int64, error) {
+		if len(operands) == 0 {
+			return 0, fmt.Errorf("There are not enough numbers to performance this operation ( / )")
+		}
+		if operands[0] == 0 {
+			return 0, fmt.Errorf("Division by zero")
+		}
+		return operands[1] / operands[0], nil
+	}}
+	OPSQRT = Operator{SQRT, 1, func(operands []int64) (int64, error) {
+		if len(operands) == 0 {
+			return 0, fmt.Errorf("There are not enough numbers to performance this operation ( sqrt )")
+		}
+		if operands[0] < 0 {
+			return 0, fmt.Errorf("Sqrt invalid")
+		}
+		return int64(math.Sqrt(float64(operands[0]))), nil
+	}}
+	OPRAISE = Operator{RAISE, 2, func(operands []int64) (int64, error) {
+		if len(operands) == 0 {
+			return 0, fmt.Errorf("There are not enough numbers to performance this operation ( ^ )")
+		}
+		if operands[0] < 0 {
+			return 0, fmt.Errorf("Raise invalid")
+		}
+		return int64(math.Pow(float64(operands[1]), float64(operands[0]))), nil
+	}}
+	OPLOGARITHM = Operator{LOGARITHM, 2, func(operands []int64) (int64, error) {
+		if operands[1] < 1 || operands[0] <= 1 {
+			return 0, fmt.Errorf("Unable to calculate a log with argument less than 1")
+		}
+		return int64(math.Log(float64(operands[1])) / math.Log(float64(operands[0]))), nil
+	}}
+	OPTERNARY = Operator{TERNARY, 3, func(operands []int64) (int64, error) {
+		if len(operands) < 3 {
+			return 0, fmt.Errorf("There are not enough numbers to performance this operation ( Ternary )")
+		}
+		if operands[2] != 0 {
+			return operands[1], nil
+		}
+		return operands[0], nil
+	}}
+	OPERATORS = []Operator{OPSUM, OPSUBTRACTION, OPMULTIPLICATION, OPDIVISION, OPSQRT, OPRAISE, OPLOGARITHM, OPTERNARY}
 )
 
 func IdentifyOperations(operation []string) (int64, error) {
@@ -24,31 +85,31 @@ func IdentifyOperations(operation []string) (int64, error) {
 		result int64
 		err    error
 	)
-	Stack := pila.CrearPilaDinamica[int64]()
+	stack := pila.CrearPilaDinamica[int64]()
 
 	for _, value := range operation {
 
 		number, errStr := strconv.ParseInt(value, 10, 64)
 
-		if errStr != nil && strings.Contains(OPERATORS, value) {
-			result, err = Operations(value, Stack)
-			Stack.Apilar(result)
+		if errStr != nil && strings.Contains("+-*/sqrt^log?", value) {
+			result, err = Operations(value, stack)
+			stack.Apilar(result)
 
-		} else if errStr != nil && !strings.Contains(OPERATORS, value) {
+		} else if errStr != nil && !strings.Contains("+-*/sqrt^log?", value) {
 			err = fmt.Errorf("Could not be converted correctly: %v\n", errStr)
 
 		} else {
-			Stack.Apilar(number)
+			stack.Apilar(number)
 
 		}
 	}
 
-	if Stack.EstaVacia() {
+	if stack.EstaVacia() {
 		return result, fmt.Errorf("There are extra operators/numbers or unfinished equations")
 
 	}
-	result = Stack.Desapilar()
-	if !Stack.EstaVacia() {
+	result = stack.Desapilar()
+	if !stack.EstaVacia() {
 		return result, fmt.Errorf("There are extra operators/numbers or unfinished equations")
 
 	}
@@ -67,35 +128,18 @@ func getOperators(stack pila.Pila[int64], quantity int, res []int64) ([]int64, e
 
 func Operations(operator string, stack pila.Pila[int64]) (int64, error) {
 	var (
-		op                 Operator
-		arithmeticOperator arithmetics
-		numbers            []int64
-		err                error
+		err     error
+		numbers []int64
 	)
 
-	switch operator {
-	case SUM:
-		arithmeticOperator = sum{}
-	case SUBTRACTION:
-		arithmeticOperator = subtraction{}
-	case MULTIPLICATION:
-		arithmeticOperator = multiplication{}
-	case DIVISION:
-		arithmeticOperator = division{}
-	case RAISE:
-		arithmeticOperator = raise{}
-	case LOGARITHM:
-		arithmeticOperator = logarithm{}
-	case SQRT:
-		arithmeticOperator = sqrt{}
-	case TERNARY:
-		arithmeticOperator = ternary{}
+	for _, value := range OPERATORS {
+		if value.representation == operator {
+			numbers, err = getOperators(stack, value.arity, numbers)
+			if err != nil {
+				return 0, fmt.Errorf("%v\n", err)
+			}
+			return value.operate(numbers)
+		}
 	}
-
-	numbers, err = getOperators(stack, arithmeticOperator.getArity(), numbers)
-	if err != nil {
-		return 0, fmt.Errorf("%v\n", err)
-	}
-	op = CreateOperator(arithmeticOperator, numbers)
-	return op.Operation()
+	return 0, fmt.Errorf("Error to processing the equation.")
 }

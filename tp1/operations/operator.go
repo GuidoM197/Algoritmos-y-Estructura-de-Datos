@@ -1,6 +1,7 @@
 package operations
 
-type Operator interface {
-	// Using an arithmetic operator, it solves the equation and returns an (int64, error).
-	Operation() (int64, error)
+type Operator struct {
+	representation string
+	arity          int
+	operate        func(operators []int64) (int64, error)
 }
