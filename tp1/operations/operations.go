@@ -8,6 +8,12 @@ import (
 	"tdas/pila"
 )
 
+type Operator struct {
+	representation string
+	arity          int
+	operate        func(operators []int64) (int64, error)
+}
+
 var (
 	SUM            = "+"
 	SUBTRACTION    = "-"
