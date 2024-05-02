@@ -49,7 +49,7 @@ func (lista *listaEnlazada[T]) InsertarUltimo(valor T) {
 
 func (lista *listaEnlazada[T]) BorrarPrimero() T {
 	if lista.EstaVacia() {
-		panic("No hay elementos para borrar")
+		panic("La lista esta vacia")
 	}
 	valor := lista.primero.dato
 	lista.primero = lista.primero.prox
@@ -117,10 +117,13 @@ func (iterador *iterListaEnlazada[T]) VerActual() T {
 }
 
 func (iterador *iterListaEnlazada[T]) HaySiguiente() bool {
-	return iterador.actual.prox != nil
+	return iterador.actual != nil
 }
 
 func (iterador *iterListaEnlazada[T]) Siguiente() {
+	if !iterador.HaySiguiente() {
+		panic("El iterador termino de iterar")
+	}
 	iterador.anterior = iterador.actual
 	iterador.actual = iterador.actual.prox
 }
@@ -153,7 +156,7 @@ func (iterador *iterListaEnlazada[T]) Insertar(valor T) {
 
 func (iterador *iterListaEnlazada[T]) Borrar() T {
 	if iterador.actual == nil {
-		panic("No hay elementos para borrar")
+		panic("El iterador termino de iterar")
 	}
 	iterador.lista.largo--
 

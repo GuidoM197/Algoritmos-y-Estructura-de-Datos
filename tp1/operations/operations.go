@@ -24,23 +24,31 @@ func IdentifyOperations(operation []string) (int64, error) {
 		result int64
 		err    error
 	)
-	newStack := pila.CrearPilaDinamica[int64]()
+	Stack := pila.CrearPilaDinamica[int64]()
 
 	for _, value := range operation {
 
 		number, errStr := strconv.ParseInt(value, 10, 64)
 
 		if errStr != nil && strings.Contains(OPERATORS, value) {
-			result, err = Operations(value, newStack)
-			newStack.Apilar(result)
+			result, err = Operations(value, Stack)
+			Stack.Apilar(result)
+
+		} else if errStr != nil && !strings.Contains(OPERATORS, value) {
+			err = fmt.Errorf("Could not be converted correctly: %v\n", errStr)
 
 		} else {
-			newStack.Apilar(number)
+			Stack.Apilar(number)
 
 		}
+	}
+
+	if Stack.EstaVacia() {
+		return result, fmt.Errorf("There are extra operators/numbers or unfinished equations")
 
 	}
-	if newStack.EstaVacia() {
+	result = Stack.Desapilar()
+	if !Stack.EstaVacia() {
 		return result, fmt.Errorf("There are extra operators/numbers or unfinished equations")
 
 	}
@@ -83,6 +91,7 @@ func Operations(operator string, stack pila.Pila[int64]) (int64, error) {
 	case TERNARY:
 		arithmeticOperator = ternary{}
 	}
+
 	numbers, err = getOperators(stack, arithmeticOperator.getArity(), numbers)
 	if err != nil {
 		return 0, fmt.Errorf("%v\n", err)

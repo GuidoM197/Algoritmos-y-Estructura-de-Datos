@@ -38,16 +38,6 @@ func (op *operator) Operation() (int64, error) {
 	}
 }
 
-func operateSqrt(operators []int64) (int64, error) {
-	if len(operators) == 0 {
-		return 0, fmt.Errorf("There are not enough numbers to performance this operation ( sqrt )")
-	}
-	if operators[0] < 0 {
-		return 0, fmt.Errorf("Sqrt invalid")
-	}
-	return int64(math.Sqrt(float64(operators[0]))), nil
-}
-
 func operateSum(operators []int64) (int64, error) {
 	if len(operators) == 0 {
 		return 0, fmt.Errorf("There are not enough numbers to performance this operation ( + )")
@@ -80,7 +70,10 @@ func operateDivision(operators []int64) (int64, error) {
 }
 
 func operateRaise(operators []int64) (int64, error) {
-	if len(operators) < 0 {
+	if len(operators) == 0 {
+		return 0, fmt.Errorf("There are not enough numbers to performance this operation ( ^ )")
+	}
+	if operators[0] < 0 {
 		return 0, fmt.Errorf("Raise invalid")
 	}
 	return int64(math.Pow(float64(operators[1]), float64(operators[0]))), nil
@@ -93,14 +86,22 @@ func operateLogarithm(operators []int64) (int64, error) {
 	return int64(math.Log(float64(operators[1])) / math.Log(float64(operators[0]))), nil
 }
 
+func operateSqrt(operators []int64) (int64, error) {
+	if len(operators) == 0 {
+		return 0, fmt.Errorf("There are not enough numbers to performance this operation ( sqrt )")
+	}
+	if operators[0] < 0 {
+		return 0, fmt.Errorf("Sqrt invalid")
+	}
+	return int64(math.Sqrt(float64(operators[0]))), nil
+}
+
 func operateTernary(operators []int64) (int64, error) {
 	if len(operators) < 3 {
 		return 0, fmt.Errorf("There are not enough numbers to performance this operation ( Ternary )")
 	}
-
-	if operators[2] == 0 {
+	if operators[2] != 0 {
 		return operators[1], nil
-	} else {
-		return operators[0], nil
 	}
+	return operators[0], nil
 }
