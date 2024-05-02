@@ -9,6 +9,9 @@ import (
 )
 
 func main() {
+	//linea, _ := os.Open("./01_in")
+	//defer linea.Close()
+
 	file := bufio.NewScanner(os.Stdin)
 
 	for file.Scan() {
