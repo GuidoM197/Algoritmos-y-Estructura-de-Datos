@@ -1,7 +1,7 @@
-go 1.22.1
+go 1.22
 
-use ./tp0
-use ./tdas
-use ./pruebas
-use ./guias
-use ./tp1
+use (
+	"./tdas"
+	"./pruebas"
+	"./tp2"
+)

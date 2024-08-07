@@ -17,6 +17,7 @@ func main() {
 	for file.Scan() {
 		result, err := operations.IdentifyOperations(strings.Split(file.Text(), " "))
 		if err != nil {
+			fmt.Println("Entre")
 			fmt.Println("ERROR")
 		} else {
 			fmt.Println(result)

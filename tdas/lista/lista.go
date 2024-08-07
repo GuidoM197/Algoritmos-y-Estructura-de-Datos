@@ -11,13 +11,13 @@ type Lista[T any] interface {
 	// InsertarUltimo guarda un elemento tipo T pasado por parametro en la ultima posición de la lista enlazada.
 	InsertarUltimo(T)
 
-	// BorrarPrimero elimina el elemento que se almacena en la primer posición.
+	// BorrarPrimero elimina el elemento que se almacena en la primer posición de la lista enlazada.
 	BorrarPrimero() T
 
-	// VerPrimero devuelve el elemento que se encuentre en la primer posición.
+	// VerPrimero devuelve el elemento que se encuentre en la primer posición de la lista enlazada.
 	VerPrimero() T
 
-	// VerUltimo devuelve el elemento que se encuentre en la ultima posición.
+	// VerUltimo devuelve el elemento que se encuentre en la ultima posición de la lista enlazada.
 	VerUltimo() T
 
 	// Largo devuelve la cantidad de elementos en la lista enlazada.
@@ -28,8 +28,6 @@ type Lista[T any] interface {
 
 	// Iterador crea un itrador externo el cual puede recorrer la lista y aplicar sus primitivas sobre ella.
 	Iterador() IteradorLista[T]
-
-	ToString()
 }
 
 type IteradorLista[T any] interface {
@@ -37,7 +35,7 @@ type IteradorLista[T any] interface {
 	// VerActual itera el arreglo y devuelve el elemento en el que esta actualmente parando.
 	VerActual() T
 
-	// HaySiguiente devuelve true en caso de que el proximo elemento sea diferente de nil.
+	// HaySiguiente devuelve true en caso de que el elemento actual sea diferente de nil.
 	HaySiguiente() bool
 
 	// Siguiente se ubica en el siguiente elemento de la lista.

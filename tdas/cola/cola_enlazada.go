@@ -33,10 +33,7 @@ func (cola *colaEnlazada[T]) Encolar(valor T) {
 }
 
 func (cola *colaEnlazada[T]) Desencolar() T {
-	if cola.EstaVacia() {
-		panic("La cola esta vacia")
-	}
-	valor := cola.primero.valor
+	valor := cola.VerPrimero()
 	cola.primero = cola.primero.prox
 	if cola.primero == nil {
 		cola.ultimo = nil
