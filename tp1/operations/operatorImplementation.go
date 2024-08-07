@@ -95,7 +95,7 @@ func operateLogarithm(operators []int64) (int64, error) {
 
 func operateTernary(operators []int64) (int64, error) {
 	if len(operators) < 3 {
-		return 0, fmt.Errorf("There are not enough numbers to performance this operation ( Ternary )")
+		return 0, fmt.Errorf("There are not enough numbers to performance this operation ( Ternary ).")
 	}
 
 	if operators[2] == 0 {

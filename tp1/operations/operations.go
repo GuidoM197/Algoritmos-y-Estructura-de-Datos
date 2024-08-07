@@ -41,7 +41,7 @@ func IdentifyOperations(operation []string) (int64, error) {
 
 	}
 	if newStack.EstaVacia() {
-		return result, fmt.Errorf("There are extra operators/numbers or unfinished equations")
+		return result, fmt.Errorf("There are extra operators/numbers or unfinished equations.")
 
 	}
 	return result, err
